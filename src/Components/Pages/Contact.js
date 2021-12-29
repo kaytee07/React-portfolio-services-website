@@ -1,53 +1,135 @@
 import React, {Component} from 'react'
+import { Field } from '../Common/Field';
+import { Formik, Form } from 'formik';
 
+const field = {
+  sections: [
+    [
+      {
+        name: "name",
+        elementName: "input",
+        type: "text",
+        id: "name",
+        placeholder: "Your name*",
+      },
+      {
+        name: "email",
+        elementName: "input",
+        type: "email",
+        id: "email",
+        placeholder: "Your email*",
+      },
+      {
+        name: "phone",
+        elementName: "input",
+        type: "text",
+        id: "phone",
+        placeholder: "Your phone number*",
+      },
+    ],
+    [
+      {
+        name: "message",
+        elementName: "textarea",
+        type: "text",
+        id: "message",
+        placeholder: "Type your message*",
+      },
+    ],
+  ],
+};
+ 
+;
 class Contact extends Component{
+   
+
+    submitForm = (e) => {
+        alert('form submitted')
+    }
     render(){
-        return(
-            <section class="page-section" id="contact">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Contact Us</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+
+        return (
+          <Formik
+            initialValues={{
+              name: "",
+              email: "",
+              phone: "",
+              message: "",
+            }}
+          >
+            {(formik) => (
+
+              <section className="page-section" id="contact">
+                
+                <div className="container">
+                  <div className="text-center">
+                    <h2 className="section-heading text-uppercase">
+                      Contact Us
+                    </h2>
+                    <h3 className="section-subheading text-muted">
+                      Lorem ipsum dolor sit amet consectetur.
+                    </h3>
+                  </div>
+                  <form
+                    id="contactForm"
+                    data-sb-form-api-token="API_TOKEN"
+                    onSubmit={(e) => this.submitForm(e)}
+                  >
+                    <div className="row align-items-stretch mb-5">
+                      {field.sections.map((section, index) => {
+                        console.log(section);
+                        return (
+                          <div className="col-md-6" key={index}>
+                            {section.map((input, index) => {
+                                  {
+                                    console.log(formik.values);
+                                  }
+                              return (
+                                <Field
+                                  {...input}
+                                  key={index}
+                                
+                                 
+                                />
+                              );
+                            })}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="d-none" id="submitSuccessMessage">
+                      <div className="text-center text-white mb-3">
+                        <div className="fw-bolder">
+                          Form submission successful!
+                        </div>
+                        To activate this form, sign up at
+                        <br />
+                        <a href="https://startbootstrap.com/solution/contact-forms">
+                          https://startbootstrap.com/solution/contact-forms
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="d-none" id="submitErrorMessage">
+                      <div className="text-center text-danger mb-3">
+                        Error sending message!
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <button
+                        className="btn btn-primary btn-xl text-uppercase "
+                        id="submitButton"
+                        type="submit"
+                      >
+                        Send Message
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-                    <div class="row align-items-stretch mb-5">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input class="form-control" id="name" type="text" placeholder="Your Name *" data-sb-validations="required" />
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" id="email" type="email" placeholder="Your Email *" data-sb-validations="required,email" />
-                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-                            </div>
-                            <div class="form-group mb-md-0">
-                                <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" data-sb-validations="required" />
-                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-group-textarea mb-md-0">
-                                <textarea class="form-control" id="message" placeholder="Your Message *" data-sb-validations="required"></textarea>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-none" id="submitSuccessMessage">
-                        <div class="text-center text-white mb-3">
-                            <div class="fw-bolder">Form submission successful!</div>
-                            To activate this form, sign up at
-                            <br />
-                            <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                        </div>
-                    </div>
-                   
-                    <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                    <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" id="submitButton" type="submit">Send Message</button></div>
-                </form>
-            </div>
-        </section>
-        )
+              </section>
+            )}
+          </Formik>
+        );
     }
 }
 

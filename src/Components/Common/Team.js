@@ -23,7 +23,7 @@ class Team extends Component{
               </div>
               <div className="row">
                 {team.map((members, index)=>{
-                    return <TeamMembers {...members}/>
+                    return <TeamMembers {...members} key={index}/>
                 })}
               </div>
               <div className="row">
