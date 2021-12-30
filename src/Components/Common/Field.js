@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Formik, useField} from 'formik'
+import {Formik, useField, ErrorMessage} from 'formik'
 import Contact from "../Pages/Contact";
 
 
@@ -7,46 +7,20 @@ import Contact from "../Pages/Contact";
 export const Field = (props) => {
 
         const [ field, meta ]= useField(props);
-        console.log(field)
         return (
           <div>
-            {props.elementName === "input" ? (
-              <div className="form-group">
-                <input
-                {...field} {...props}
-                  className="form-control"
-                  id={props.id}
-                  type={props.type}
-                  placeholder={props.placeholder}
-                  name={props.name}
-            
-                  onChange={props.onChange}
-                  data-sb-validations="required"
-                />
-                <div
-                  className="invalid-feedback"
-                  data-sb-feedback="name:required"
-                >
-                  A {props.name} is required.
+            {props.name === "message" ? (
+              <div className="form-group form-group-textarea mb-md-0">
+                <textarea className={`form-control  ${meta.touched && meta.error && 'is-invalid'} `} {...field} {...props} />
+                <div style={{ color: "white" }}>
+                  <ErrorMessage name={field.name} />
                 </div>
               </div>
             ) : (
-              <div className="form-group form-group-textarea mb-md-0">
-                <textarea
-                  className="form-control"
-                  id={props.id}
-                  type={props.type}
-                  placeholder={props.placeholder}
-                  name={props.name}
-                  
-                  onChange={props.onChange}
-                  data-sb-validations="required"
-                />
-                <div
-                  className="invalid-feedback"
-                  data-sb-feedback="name:required"
-                >
-                  A {props.name} is required.
+              <div className="form-group">
+                <input className="form-control" {...field} {...props} />
+                <div style={{ color: "white" }}>
+                  <ErrorMessage name={field.name} />
                 </div>
               </div>
             )}

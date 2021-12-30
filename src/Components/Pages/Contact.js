@@ -1,43 +1,15 @@
 import React, {Component} from 'react'
 import { Field } from '../Common/Field';
 import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { object } from 'yup';
 
-const field = {
-  sections: [
-    [
-      {
-        name: "name",
-        elementName: "input",
-        type: "text",
-        id: "name",
-        placeholder: "Your name*",
-      },
-      {
-        name: "email",
-        elementName: "input",
-        type: "email",
-        id: "email",
-        placeholder: "Your email*",
-      },
-      {
-        name: "phone",
-        elementName: "input",
-        type: "text",
-        id: "phone",
-        placeholder: "Your phone number*",
-      },
-    ],
-    [
-      {
-        name: "message",
-        elementName: "textarea",
-        type: "text",
-        id: "message",
-        placeholder: "Type your message*",
-      },
-    ],
-  ],
-};
+let validate = Yup.object({
+  name:Yup.string().required().min(3, 'name must be more that three characters'),
+  email:Yup.string().email('Email is invalid').required(),
+  phone:Yup.number().min(10, "must have 10 numbers"),
+  message:Yup.string().required()
+})
  
 ;
 class Contact extends Component{
@@ -56,11 +28,15 @@ class Contact extends Component{
               phone: "",
               message: "",
             }}
+
+            validationSchema={validate}
+            onSubmit={values => {
+              console.log(values)
+            }}
           >
             {(formik) => (
-
               <section className="page-section" id="contact">
-                
+          
                 <div className="container">
                   <div className="text-center">
                     <h2 className="section-heading text-uppercase">
@@ -70,32 +46,39 @@ class Contact extends Component{
                       Lorem ipsum dolor sit amet consectetur.
                     </h3>
                   </div>
-                  <form
+                  <Form
                     id="contactForm"
                     data-sb-form-api-token="API_TOKEN"
-                    onSubmit={(e) => this.submitForm(e)}
                   >
                     <div className="row align-items-stretch mb-5">
-                      {field.sections.map((section, index) => {
-                        console.log(section);
-                        return (
-                          <div className="col-md-6" key={index}>
-                            {section.map((input, index) => {
-                                  {
-                                    console.log(formik.values);
-                                  }
-                              return (
-                                <Field
-                                  {...input}
-                                  key={index}
-                                
-                                 
-                                />
-                              );
-                            })}
-                          </div>
-                        );
-                      })}
+                      <div className="col-md-6">
+                        <Field
+                          label="name"
+                          name="name"
+                          type="text"
+                          placeholder="Your name*"
+                        />
+                        <Field
+                          label="email"
+                          name="email"
+                          type="email"
+                          placeholder="Your email address*"
+                        />
+                        <Field
+                          label="phone"
+                          name="phone"
+                          type="text"
+                          placeholder="Your phone number*"
+                        />
+                      </div>
+                      <div className="col-md-6">
+                        <Field
+                          label="message"
+                          name="message"
+                          type="message"
+                          placeholder="Type your message here"
+                        />
+                      </div>
                     </div>
                     <div className="d-none" id="submitSuccessMessage">
                       <div className="text-center text-white mb-3">
@@ -124,7 +107,7 @@ class Contact extends Component{
                         Send Message
                       </button>
                     </div>
-                  </form>
+                  </Form>
                 </div>
               </section>
             )}
